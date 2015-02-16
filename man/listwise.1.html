@@ -1,0 +1,280 @@
+<html lang="en">
+	<head>
+		<link href="//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.0/normalize.min.css" rel="stylesheet">
+		<link href="/style/main.css" rel="stylesheet">
+		<script>
+			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+			})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+			ga('create', 'UA-39713566-1', 'auto');
+			ga('send', 'pageview');
+		</script>
+	</head>
+	<body>
+		<header class="navbar">
+			<div>
+				<nav class="topnav">
+					<ul>
+						<li>
+							<a href="/">Home</a>
+						</li>
+						<li>
+							<a href="/blog/">Blog</a>
+						</li>
+						<li class="current">
+							<a href="/doc/">Documentation</a>
+						</li>
+						<li>
+							<a href="https://plus.google.com/communities/103980026082642891435">Community</a>
+						</li>
+						<li>
+							<a href="https://www.bountysource.com/teams/fabutil">Bountysource</a>
+						</li>
+						<li>
+							<a href="https://github.com/hossbeast/fab">Github</a>
+						</li>
+					</ul>
+				</nav>
+				<a href="/">
+					<img src="/logo.png" alt="Fab">
+				</a>
+			</div>
+		</header>
+<H1>FAB</H1>
+Section: Fab Manual (1)<BR>Updated: ---BUILDDATE---<BR><A HREF="#index">Index</A>
+<A HREF="/man/">Return to Main Contents</A><HR>
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+listwise - list processing utility
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNOPSIS</H2>
+<B>listwise</B>
+<I>option</I>
+<I>logexpr</I>
+<I>transform-string</I>
+<P>
+<B>listwise</B>
+<B>--help</B>
+: options summary
+<BR>
+<B>listwise</B>
+<B>--version</B>
+: version information
+<BR>
+<B>listwise</B>
+<B>--logs</B>
+: summary of logging options
+<BR>
+<B>listwise</B>
+<B>--ops</B>
+:
+<B><A HREF="/man/1+listwise">listwise</A>(1)</B>
+operator listing
+<A NAME="lbAD">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+<B>listwise</B>
+takes a (possibly empty) input list and a 
+<B><A HREF="/man/1+listwise">listwise</A></B>(3)
+<I>transform-string</I>
+as inputs.
+<P>
+<B>listwise</B>
+executes the specified transformation and outputs the resulting list.
+<P>
+By default, the input list is read from stdin, and the 
+<I>transform-string</I>
+is the concatenation of all command-line arguments that are not recognized as either <I>option</I>s or <I>logexpr</I>s.
+<P>
+<B>listwise</B>
+can be used as an interpreter for #! scripts (see Examples).
+<DL COMPACT><DT><DD>
+</DL>
+<A NAME="lbAE">&nbsp;</A>
+<H2>OPTIONS</H2>
+<A NAME="lbAF">&nbsp;</A>
+<H3>General</H3>
+<DL COMPACT>
+<DT><B>-s</B>
+<DD>
+output only selected entries (default)
+<DT><B>-a</B>
+<DD>
+output entire list, not just selected entries
+<DT><B>-k</B>
+<DD>
+output entire stack, not just top list
+<DT><B>-n</B>
+<DD>
+number output rows 0 .. n (default)
+<DT><B>-N</B>
+<DD>
+number output rows by list index
+<DT><B>-Z</B>
+<DD>
+separate output rows by null byte instead of by newline
+<DT><B>-A</B>
+<DD>
+process subsequent <I>path</I> arguments line-wise (ascii) (default)
+<DT><B>-0</B>
+<DD>
+process subsequent <I>path</I> arguments null-wise
+<DT><B>+</B><I>int</I>
+<DD>
+append subsequent non-options with priority <I>int</I> (default : 0)
+<DT><B>-t </B><I>arg</I>
+<DD>
+add <I>arg</I> to transform-string (transform)
+<DT><B>+t</B>
+<DD>
+treat subsequent non-options as -t <I>arg</I> (default)
+<DT><B>-T </B><I>path</I>
+<DD>
+read transform-string from <I>path</I>
+<DT><B>+T</B>
+<DD>
+treat subsequent non-options as -T <I>path</I>
+<DT><B>-l </B><I>arg</I>
+<DD>
+add <I>arg</I> to initial list (list)
+<DT><B>+l</B>
+<DD>
+treat subsequent non-options as -l <I>arg</I>
+<DT><B>-L </B><I>path</I>
+<DD>
+read initial list from <I>path</I>
+<DT><B>+L</B>
+<DD>
+treat subsequent non-options as -L <I>path</I>
+<DT><B>-H </B><I>path</I>
+<DD>
+read transform-string and initial list from <I>path</I> (hybrid)
+<DT><B>+H</B>
+<DD>
+treat subsequent non-options as -H <I>path</I>
+</DL>
+<A NAME="lbAG">&nbsp;</A>
+<H2>LOGEXPR</H2>
+Log expressions control which log messages are enabled
+<DL COMPACT>
+<DT><BR>&nbsp;<B>+</B><I>logcat<DD>
+enable log messages tagged with the category logcat
+<DT><BR>&nbsp;</I><B>-</B><I>logcat<DD>
+disable log messages tagged with the category logcat
+</DL>
+</I><A NAME="lbAH">&nbsp;</A>
+<H3>Categories</H3>
+<DL COMPACT>
+<DT><B>PARSE</B>
+<DD>
+display the parsed transform-string
+<DT><B>EXEC</B>
+<DD>
+step-by-step execution
+<DT><B>OPINFO</B>
+<DD>
+operator informational messages
+</DL>
+<A NAME="lbAI">&nbsp;</A>
+<H2>EXIT STATUS</H2>
+An exit status of 0 means success.
+<P>
+An exit status &gt; 127 means an error was encountered that is not specific to
+<B>listwise</B>.
+<P>
+An exit status &lt; 128 means that one of the following <B>listwise</B>-specific errors was encountered.
+<DL COMPACT>
+<DT>(1)<B>BADFILE</B>
+<DD>
+unable to process input file
+<DT>(2)<B>BADARGS</B>
+<DD>
+invalid command-line arguments
+</DL>
+<A NAME="lbAJ">&nbsp;</A>
+<H2>EXAMPLES</H2>
+<P>
+An example lw script to produce file listings, like <A HREF="/man/1+ls">ls</A>(1)
+<BR>
+<B>#!lw +l +1 -T</B>
+<BR>
+<B>-d</B>
+<BR>
+<B>ls</B>
+<BR>
+<B>c</B>
+<BR>
+<B>stat/F</B>
+<BR>
+<B>y</B>
+<BR>
+<A NAME="lbAK">&nbsp;</A>
+<H2>AUTHORS</H2>
+Todd Freed 
+<A NAME="lbAL">&nbsp;</A>
+<H2>SEE ALSO</H2>
+<B><A HREF="/man/1+fab">fab</A>(1)</B>
+<B><A HREF="/man/1+listwise">listwise</A>(3)</B>
+<P>
+fabutil.org &lt;URL: <A HREF="http://fabutil.org">http://fabutil.org</A> &gt;
+<P>
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNOPSIS</A><DD>
+<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAE">OPTIONS</A><DD>
+<DL>
+<DT><A HREF="#lbAF">General</A><DD>
+</DL>
+<DT><A HREF="#lbAG">LOGEXPR</A><DD>
+<DL>
+<DT><A HREF="#lbAH">Categories</A><DD>
+</DL>
+<DT><A HREF="#lbAI">EXIT STATUS</A><DD>
+<DT><A HREF="#lbAJ">EXAMPLES</A><DD>
+<DT><A HREF="#lbAK">AUTHORS</A><DD>
+<DT><A HREF="#lbAL">SEE ALSO</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="/man/">man2html</A>,
+using the manual pages.<BR>
+Time: 20:53:44 GMT, February 15, 2015
+</BODY>
+</HTML>
+		<section class="footer">
+			<div>
+				<nav class="botnav">
+					<ul>
+						<li>
+							<a href="/">Home</a>
+						</li>
+						<li>
+							<a href="/blog/">Blog</a>
+						</li>
+						<li>
+							<a href="/doc/">Documentation</a>
+						</li>
+						<li>
+							<a href="https://plus.google.com/communities/103980026082642891435">Community</a>
+						</li>
+						<li>
+							<a href="https://www.bountysource.com/teams/fabutil">Bountysource</a>
+						</li>
+						<li>
+							<a href="https://github.com/hossbeast/fab">Github</a>
+						</li>
+					</ul>
+				</nav>
+			</div>
+			<div>
+				<p style="font-size:smaller ; margin-top : 30px">
+					Copyright (c) 2012-2015 &nbsp;&middot;&nbsp; <a href="mailto:todd.freed@gmail.com" style="color:white">Todd Freed</a>
+				</p>
+			</div>
+		</section>
+	</body>
+</html>

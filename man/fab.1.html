@@ -1,0 +1,451 @@
+<html lang="en">
+	<head>
+		<link href="//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.0/normalize.min.css" rel="stylesheet">
+		<link href="/style/main.css" rel="stylesheet">
+		<script>
+			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+			})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+			ga('create', 'UA-39713566-1', 'auto');
+			ga('send', 'pageview');
+		</script>
+	</head>
+	<body>
+		<header class="navbar">
+			<div>
+				<nav class="topnav">
+					<ul>
+						<li>
+							<a href="/">Home</a>
+						</li>
+						<li>
+							<a href="/blog/">Blog</a>
+						</li>
+						<li class="current">
+							<a href="/doc/">Documentation</a>
+						</li>
+						<li>
+							<a href="https://plus.google.com/communities/103980026082642891435">Community</a>
+						</li>
+						<li>
+							<a href="https://www.bountysource.com/teams/fabutil">Bountysource</a>
+						</li>
+						<li>
+							<a href="https://github.com/hossbeast/fab">Github</a>
+						</li>
+					</ul>
+				</nav>
+				<a href="/">
+					<img src="/logo.png" alt="Fab">
+				</a>
+			</div>
+		</header>
+<H1>FAB</H1>
+Section: Fab Manual (1)<BR>Updated: ---BUILDDATE---<BR><A HREF="#index">Index</A>
+<A HREF="/man/">Return to Main Contents</A><HR>
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+fab - build optimally
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNOPSIS</H2>
+<B>fab</B>
+<I>modifier</I>
+<I>selector</I>
+<I>option</I>
+<I>logexpr</I>
+<I>varexpr</I>
+<P>
+<B>fab --help</B>
+: options summary
+<BR>
+<B>fab --version</B>
+: version information
+<BR>
+<B>fab --logs</B>
+: summary of logging options
+<BR>
+<B>fab --ops</B>
+: <B><A HREF="/man/1+listwise">listwise</A>(3)</B> operator listing, including <B>fab</B>-specific operators
+<A NAME="lbAD">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+<B>fab</B>
+is used to manage compilation of a project, where source files are transformed into build artifacts by executing a series of commands.
+<P>
+The project is represented by a dependency graph in which each node represents either a source file or a secondary file. There are also nodes that are not backed by any file, so-called nofile nodes, that represent build tasks
+(ex. <B>@install</B>)
+or groups of nodes
+(ex. <B>@all</B>)
+<P>
+Parsing the project files and constructing the dependency graph is expensive.
+<B>fabd</B>
+is a caching daemon that runs in the background per project, to maintain those structures in memory. Incremental builds are fast.
+<P>
+<B>fab</B>
+features integrated dependency discovery to ease the burden of specifying dependencies between project components.
+<P>
+The build is shaped by selecting nodes into node-sets on the command line. Each node-set has a specific function, see below.
+<A NAME="lbAE">&nbsp;</A>
+<H2>SELECTIONS</H2>
+<A NAME="lbAF">&nbsp;</A>
+<H3>SELECTORS</H3>
+<P>
+<DL COMPACT>
+<DT><I>path</I>
+<DD>
+select by relative path
+<DT><B>/</B><I>path</I>
+<DD>
+select by canonical path
+<DT><B>@</B><I>name</I>
+<DD>
+select by nofile name
+<DT><B>[ </B><I>list </I>[<B> ~ </B><I>transform-string </I>] <B>]<DD>
+list selection (see EXAMPLES below)
+<BR>
+variables
+<BR>
+$!</B>
+: all nodes
+</DL>
+<A NAME="lbAG">&nbsp;</A>
+<H3>RESOLUTION MODIFIERS</H3>
+<DL COMPACT>
+<DT><B>+C</B>|<B>-C</B> (default)<DD>
+relative path selectors resolve against current working directory (default)
+<DT><B>+F</B>|<B>-F</B><DD>
+relative path selectors resolve against directory in which the init-fabfile resides
+</DL>
+<A NAME="lbAH">&nbsp;</A>
+<H3>SELECTION MODIFIERS</H3>
+<DL COMPACT>
+<DT><B>+t</B>|<B>-t</B> fabricate-set (default)<DD>
+add nodes to the build plan along with their eventual dependencies
+<DT><B>+x</B>|<B>-x</B> fabricate-exact-set <DD>
+add nodes to the buildplan without considering dependencies
+<DT><B>+n</B>|<B>-n</B> fabricate-nofile-set <DD>
+add nodes to the buildplan along with their eventual dependencies without traversing a nofile boundary
+<DT><B>+b</B>|<B>-b</B> invalidate-set <DD>
+invalidate nodes
+</DL>
+<A NAME="lbAI">&nbsp;</A>
+<H3>NON-BUILD NODE-SETS</H3>
+If any of the following node-sets is nonempty, the associated actions are performed instead of buildplan creation/execution
+<DL COMPACT>
+<DT><B>+d</B>|<B>-d</B> discovery-set <DD>
+perform dependency discovery for nodes
+<DT><B>+i</B>|<B>-i</B> inspect-set <DD>
+output summary information for nodes
+<DT><B>+q</B>|<B>-q</B> query-set <DD>
+list the nodes matched by selectors
+<DL COMPACT><DT><DD>
+</DL>
+</DL>
+<A NAME="lbAJ">&nbsp;</A>
+<H2>OPTIONS</H2>
+<A NAME="lbAK">&nbsp;</A>
+<H3>Execution Modes</H3>
+<DL COMPACT>
+<DT><B>-p</B>
+<DD>
+create buildplan only - do not execute buildplan. Implies <B>+BPDUMP</B>.
+</DL>
+<A NAME="lbAL">&nbsp;</A>
+<H3>Incremental Builds</H3>
+<DL COMPACT>
+<DT><B>-B</B>
+<DD>
+first restart <B>fabd</B>. Consider using +b [ $! ] instead.
+</DL>
+<A NAME="lbAM">&nbsp;</A>
+<H3>Parallel Builds</H3>
+<DL COMPACT>
+<DT><B>-j</B> <I>concurrency</I><DD>
+maximum number of simultaneously executing threads
+<DL COMPACT><DT><DD>
+<DL COMPACT>
+<DT><B>-1</B>
+<DD>
+limit to heuristic based on detected CPUs (default)
+<DT><B>0</B>
+<DD>
+no limit
+<DT><I>number</I>
+<DD>
+<I>number</I>
+</DL>
+</DL>
+</DL>
+<A NAME="lbAN">&nbsp;</A>
+<H3>Buildscripts</H3>
+<DL COMPACT>
+<DT><B>-k</B> <I>path</I><DD>
+do not execute buildplan - instead create a buildscript from it, and write it to <I>path</I>
+<DT><B>-K</B> <I>varname</I><DD>
+<I>varname</I> will be settable at buildscript execution time
+</DL>
+<A NAME="lbAO">&nbsp;</A>
+<H3>Fabfile Processing</H3>
+<DL COMPACT>
+<DT><B>-f</B> <I>path</I><DD>
+locate the initial fabfile at <I>path</I> rather than ./fabfile
+<DT><B>-I</B> <I>path</I><DD>
+append <I>path</I> to the list of directories used when resolving invocations
+</DL>
+<A NAME="lbAP">&nbsp;</A>
+<H3>Variables</H3>
+The portion of the option following <B>-v</B> is referred to as the <I>varexpr</I>. Implies -B.
+<DL COMPACT>
+<DT><B>-v $</B><I>var</I><B>=[ </B><I>list </I>[ <B>~ </B><I>transform-string </I> ] <B>]<DD>
+apply the specified list to the definition of </B><I>var</I> at scope-zero
+<DT><B>-v $</B><I>var</I><B>+=[ </B><I>list </I> [ <B>~ </B><I>transform-string</I> ] <B>]<DD>
+apply the specified list addition to the definition of </B><I>var</I> at scope-zero
+<DT><B>-v $</B><I>var</I><B>~=</B><I>transform-string</I><DD>
+apply <I>transform-string</I> to the definition of <I>var</I> at scope-zero
+</DL>
+<A NAME="lbAQ">&nbsp;</A>
+<H3>Handling Cycles</H3>
+<DL COMPACT>
+<DT><B>--cycles-warn</B> (default)
+<DD>
+warn when a cycle is detected (once per unique cycle)
+<DT><B>--cycles-fail</B>
+<DD>
+fail when a cycle is detected
+<DT><B>--cycles-deal</B>
+<DD>
+deal with cycles by terminating the traversal (not recommended)
+</DL>
+<A NAME="lbAR">&nbsp;</A>
+<H3>Logging</H3>
+<DL COMPACT>
+<DT><B>--gnid-relative-cwd</B> (default)
+<DD>
+identify nodes in log messages by path relative to the current working directory
+<DT><B>--gnid-relative-fabfile-dir</B>
+<DD>
+identify nodes in log messages by path relative to init-fabfile-dir
+<DT><B>--gnid-absolute</B>
+<DD>
+identify nodes in log messages by absolute path
+<DT><B>--gnid-canon</B>
+<DD>
+identify nodes in log messages by canonical path
+</DL>
+<A NAME="lbAS">&nbsp;</A>
+<H2>LOGEXPR</H2>
+Log expressions control which log messages are enabled
+<DL COMPACT>
+<DT><BR>&nbsp;<B>+</B><I>logcat<DD>
+enable log messages tagged with the category logcat
+<DT><BR>&nbsp;</I><B>-</B><I>logcat<DD>
+disable log messages tagged with the category logcat
+</DL>
+</I><A NAME="lbAT">&nbsp;</A>
+<H3>Categories</H3>
+<DL COMPACT>
+<DT><B>ERROR</B>
+<DD>
+fatal errors
+<DT><B>WARN</B>
+<DD>
+nonfatal warnings
+<DT><B>INFO</B>
+<DD>
+program flow
+<DT><B>ARGS</B>
+<DD>
+program arguments
+<DT><B>PARAMS</B>
+<DD>
+program execution parameters
+<DT><B>BPINFO</B>
+<DD>
+buildplan - flow
+<DT><B>BPEXEC</B>
+<DD>
+buildplan - execution
+<DT><B>BPEVAL</B>
+<DD>
+buildplan - pruning/evaluating
+<DT><B>BPDUMP</B>
+<DD>
+buildplan - log final buildplan
+<DT><B>BPCMD</B>
+<DD>
+buildplan - commands
+<DT><B>DSCINFO</B>
+<DD>
+dependency discovery - flow
+<DT><B>DSCEXEC</B>
+<DD>
+dependency discovery - execution
+<DT><B>DSCCMD</B>
+<DD>
+dependency discovery - commands
+<DT><B>DSCRES</B>
+<DD>
+dependency discovery - results
+<DT><B>NODE</B>
+<DD>
+dependency graph node details (+i)
+<DT><B>INVALID</B>
+<DD>
+dependency graph node invalidations
+<DT><B>VARAUTO</B>
+<DD>
+variable definitions - automatic
+<DT><B>VARUSER</B>
+<DD>
+variable definitions - user-defined
+<DT><B>VAR</B>
+<DD>
+variable definitions
+<DT><B>INVOKE</B>
+<DD>
+fabfile invocations
+<DT><B>SELECT</B>
+<DD>
+node selectors
+<DT><B>LISTS</B>
+<DD>
+node lists
+</DL>
+<A NAME="lbAU">&nbsp;</A>
+<H2>EXIT STATUS</H2>
+An exit status of 0 means success.
+<P>
+An exit status &gt; 127 means an error was encountered that is not specific to
+<B>fab</B>.
+<P>
+An exit status &lt; 128 means that one of the following <B>fab</B>-specific error was encountered.
+<DL COMPACT>
+<DT>(1)<B>BADARGS</B>
+<DD>
+invalid command-line arguments
+<DT>(2)<B>BADTMP</B>
+<DD>
+unexpected file(s) in fab tmp directory
+<DT>(3)<B>BADIPC</B>
+<DD>
+ipc failure
+<DT>(4)<B>SYNTAX</B>
+<DD>
+fabfile could not be parsed
+<DT>(5)<B>ILLBYTE</B>
+<DD>
+fabfile contains illegal byte(s)
+<DT>(6)<B>UNSATISFIED</B>
+<DD>
+buildplan has unsatisfied dependencies
+<DT>(7)<B>CMDFAIL</B>
+<DD>
+command failed to execute successfully
+<DT>(8)<B>DSCPARSE</B>
+<DD>
+dependency discovery results were not parsed
+<DT>(9)<B>NOINVOKE</B>
+<DD>
+invocation target could not be resolved
+<DT>(10)<B>BADPLAN</B>
+<DD>
+buildplan cannot be constructed
+<DT>(11)<B>CYCLE</B>
+<DD>
+dependency graph contains a cycle
+<DT>(12)<B>NOSELECT</B>
+<DD>
+selector matches nothing
+<DT>(13)<B>NXPARAMS</B>
+<DD>
+unable to determine runtime parameters
+<DT>(14)<B>FABDFAIL</B>
+<DD>
+fabd terminated abnormally
+<DT>(15)<B>FABPERMS</B>
+<DD>
+fab binar(ies) do not have proper permissions
+</DL>
+<A NAME="lbAV">&nbsp;</A>
+<H2>AUTHORS</H2>
+Todd Freed 
+<A NAME="lbAW">&nbsp;</A>
+<H2>SEE ALSO</H2>
+<B><A HREF="/man/1+listwise">listwise</A>(1)</B>
+<B><A HREF="/man/1+listwise">listwise</A>(3)</B>
+<P>
+fabutil.org &lt;URL: <A HREF="http://fabutil.org">http://fabutil.org</A> &gt;
+<P>
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNOPSIS</A><DD>
+<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAE">SELECTIONS</A><DD>
+<DL>
+<DT><A HREF="#lbAF">SELECTORS</A><DD>
+<DT><A HREF="#lbAG">RESOLUTION MODIFIERS</A><DD>
+<DT><A HREF="#lbAH">SELECTION MODIFIERS</A><DD>
+<DT><A HREF="#lbAI">NON-BUILD NODE-SETS</A><DD>
+</DL>
+<DT><A HREF="#lbAJ">OPTIONS</A><DD>
+<DL>
+<DT><A HREF="#lbAK">Execution Modes</A><DD>
+<DT><A HREF="#lbAL">Incremental Builds</A><DD>
+<DT><A HREF="#lbAM">Parallel Builds</A><DD>
+<DT><A HREF="#lbAN">Buildscripts</A><DD>
+<DT><A HREF="#lbAO">Fabfile Processing</A><DD>
+<DT><A HREF="#lbAP">Variables</A><DD>
+<DT><A HREF="#lbAQ">Handling Cycles</A><DD>
+<DT><A HREF="#lbAR">Logging</A><DD>
+</DL>
+<DT><A HREF="#lbAS">LOGEXPR</A><DD>
+<DL>
+<DT><A HREF="#lbAT">Categories</A><DD>
+</DL>
+<DT><A HREF="#lbAU">EXIT STATUS</A><DD>
+<DT><A HREF="#lbAV">AUTHORS</A><DD>
+<DT><A HREF="#lbAW">SEE ALSO</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="/man/">man2html</A>,
+using the manual pages.<BR>
+Time: 20:53:44 GMT, February 15, 2015
+</BODY>
+</HTML>
+		<section class="footer">
+			<div>
+				<nav class="botnav">
+					<ul>
+						<li>
+							<a href="/">Home</a>
+						</li>
+						<li>
+							<a href="/blog/">Blog</a>
+						</li>
+						<li>
+							<a href="/doc/">Documentation</a>
+						</li>
+						<li>
+							<a href="https://plus.google.com/communities/103980026082642891435">Community</a>
+						</li>
+						<li>
+							<a href="https://www.bountysource.com/teams/fabutil">Bountysource</a>
+						</li>
+						<li>
+							<a href="https://github.com/hossbeast/fab">Github</a>
+						</li>
+					</ul>
+				</nav>
+			</div>
+			<div>
+				<p style="font-size:smaller ; margin-top : 30px">
+					Copyright (c) 2012-2015 &nbsp;&middot;&nbsp; <a href="mailto:todd.freed@gmail.com" style="color:white">Todd Freed</a>
+				</p>
+			</div>
+		</section>
+	</body>
+</html>

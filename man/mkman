@@ -1,0 +1,13 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+
+my $fabdir = "../../fab";
+
+for ({ d => "fab/man", n => "fab", s => 1}, { d => "listwise/listwise/man", n => "listwise", s => 1 })
+{
+	system "cat header.html > $$_{n}.$$_{s}.html";
+	system "man2html -M /man/ < $fabdir/$$_{d}/$$_{n}.$$_{s} | lw l/H1 vp d ??{ 's{\\x3f([0-9]+)}' ?{ {\\1} >> $$_{n}.$$_{s}.html";
+	system "cat footer.html >> $$_{n}.$$_{s}.html";
+}

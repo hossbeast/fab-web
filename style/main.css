@@ -1,0 +1,110 @@
+body {
+ background-color : #efefef;
+	font-family : Georgia, "Times New Roman", Times, serif;
+}
+
+section {
+	padding : 20px;
+}
+
+div
+{
+	/* border : 1px solid black; */
+}
+
+section div h3 {
+	padding-top:20px;
+}
+
+.headline {
+	text-align:center;
+}
+
+.shaded {
+	border-top : 1px solid #afafaf;
+	border-bottom : 1px solid #afafaf;
+	background-color:#cfcfcf;
+	padding-top : 50px;
+	padding-bottom : 50px;
+}
+
+.center {
+	text-align:center;
+}
+
+.sidebar {
+	float : right;
+	border : 1px solid #afafaf;
+	background-color:#cfcfcf;
+	padding : 20px;
+	display : block;
+}
+
+.sidebar table td {
+	padding : 10px;
+}
+
+.topnav a {
+	color : #2334ab;
+	text-decoration : none;
+}
+
+.topnav li.current {
+	padding-bottom : 5px;
+	border-bottom : 2px solid #2334ab;
+}
+
+.button {
+	padding : 15px;
+	background-color : #3e5e9e;
+	color : white;
+	text-decoration : none;
+	font-family : "Lucida Console", Monaco, Courier, monospace;
+}
+
+.navbar {
+	padding : 15px;
+}
+
+.topnav {
+	display : block;
+	float : right;
+}
+
+.topnav ul {
+	list-style : none;
+	margin-right : 50px;
+}
+
+.topnav li {
+	display : inline-block;
+	margin-right : 20px;
+	position : relative;
+}
+
+.footer {
+	border-top : 1px solid #afafaf;
+	background-color: #232323;
+	color : #efefef;
+	font-size : small;
+}
+
+.footer p {
+	margin-top : 30px;
+}
+
+.botnav ul {
+	list-style : none;
+	padding-left:0;
+}
+
+.botnav li {
+	display : inline-block;
+	position : relative;
+	margin-right : 10px;
+}
+
+.botnav a {
+	color : #efefef;
+	text-decoration : none;
+}
