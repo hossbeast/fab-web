@@ -45,32 +45,65 @@
 		<section>
 			<div>
 				<h2>
+					v0.5.1.0 - Sat Feb 28 16:59:20 2014 -0700
+				</h2>
+				<ul>
+					<li>
+						issue 56 : hash varexprs, discard discovery and fabfiles only upon changes
+					</li>
+					<li>
+						issue 57 : fab must write the buildscript, not fabd (file access permissions)
+					</li>
+					<li>
+						issue 58 : successive buildplan stages should see filesystem changes effected by previous stage
+					</li>
+					<li>fix issue with gcc-dep where non-header-file discovered dependencies are reported incorrectly</li>
+					<li>add @install.dist for package maintainers</li>
+					<li>fix issue where $^starttime is 0 when fabfiles are parsed</li>
+					<li>liblistwise should log backtrace when lwopdir is not present (corrupted install)</li>
+					<li>fix a linker error about mismatched symbol alignment on certain builds</li>
+					<li>create symlinks in ipc-dir instead of fab-dir so that user-facing paths are invariant across invocations</li>
+					<li>fix an issue where NXFILE is cleared before file is seen again, causing nonexistent files to not be detected</li>
+					<li>fix crash in liblistwise due to certain operators improperly handling LWX_WINDOWS_ALL (hl, t)</li>
+					<li>logger now writes to stderr instead of stdout</li>
+					<li>new operator, ln</li>
+					<li>fix an issue with --o&lt;N&gt; help output for N &gt; 6</li>
+					<li>add unit tests for commonly-used s/// transform</li>
+					<li>add MINTOKEN and MAXTOKEN to bison/tokens.fab</li>
+					<li>fab should exit with nonzero status when fabd experiences dependency discovery failure</li>
+				</ul>
+			</div>
+		</section>
+		<section>
+			<div>
+				<h2>
 					v0.5.0.0 - Sat Feb 7 06:16:50 2014 -0700
 				</h2>
 				<ul>
 					<li>
-			 			issue 7 : fabd caching daemon : discovery results never go to disk. Incremental builds are much faster.
+						issue 7 : fabd caching daemon : discovery results never go to disk. Incremental builds are much faster.
 					</li>
 					<li>
-			 			listwise syntax overhaul, new windowing api, 30 new operators.
-						<ul>
-			 			 <li>This is a breaking change. Existing fabfiles must be updated to work in v0.5.</li>
-			 			 <li>issue 4 : -X operators</li>
-			 			 <li>issue 5 : operator for canon</li>
-			 			 <li>issue 17 : new operators</li>
-			 			 <li>issue 25 : ss case sensitivity options</li>
-			 			 <li>issue 29 : listwise relative numbering</li>
-			 			 <li>issue 31 : listwise operator listings</li>
-			 			 <li>issue 33 : listwise generator syntax overhaul</li>
-			 			 <li>issue 34 : operators A, B, C</li>
-			 			 <li>issue 54 : listwise as interpreter</li>
-						</ul>
-			 			<li>issue 52 : man pages for fab and listwise</li>
-			 			<li>issue 54 : listwise improved capabilities for interpreter scripts</li>
-			 			<li>fab +q (query) to quickly list node properties</li>
-			 			<li>standardized calling convention leading to much better error reporting throughout</li>
-			 			 <li>--backtrace-pithy and --backtrace-full</li>
-			 			<li>unit testing framework and initial test suite</li>
+						listwise syntax overhaul, new windowing api, 30 new operators.
+					<ul>
+						 <li>This is a breaking change. Existing fabfiles must be updated to work in v0.5.</li>
+						 <li>issue 4 : -X operators</li>
+						 <li>issue 5 : operator for canon</li>
+						 <li>issue 17 : new operators</li>
+						 <li>issue 25 : ss case sensitivity options</li>
+						 <li>issue 29 : listwise relative numbering</li>
+						 <li>issue 31 : listwise operator listings</li>
+						 <li>issue 33 : listwise generator syntax overhaul</li>
+						 <li>issue 34 : operators A, B, C</li>
+						 <li>issue 54 : listwise as interpreter</li>
+					</ul>
+						<li>issue 52 : man pages for fab and listwise</li>
+						<li>issue 54 : listwise improved capabilities for interpreter scripts</li>
+						<li>fab +q (query) to quickly list node properties</li>
+						<li>standardized calling convention leading to much better error reporting throughout</li>
+						 <li>--backtrace-pithy and --backtrace-full</li>
+						<li>unit testing framework and initial test suite</li>
+					</li>
 				</ul>
 			</div>
 		</section>
